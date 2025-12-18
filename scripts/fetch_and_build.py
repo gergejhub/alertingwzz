@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
-"""Build data/status.json for GitHub Pages.
-
-CRITICAL: METAR contains FZFG and visibility < 150 m
-WARNING: TAF (any segment) contains FZFG and visibility < 150 m
-
-Airport list sources:
-1) Wizz Air official website (best-effort, may block automation)
-2) Wikipedia list of Wizz Air destinations (fallback; UA to avoid 403)
-3) Cached file data/wizz_airports_cache.csv (last known good)
-
-ICAO mapping: OurAirports dataset
-Weather: aviationweather.gov Data API (raw)
 """
+Build data/status.json for GitHub Pages.
 
+v3 improvements:
+- Strong override: data/stations_override.txt (ICAO list). If present, scraping/mapping is skipped.
+- Wikipedia-only fallback (no unstable "official" scraping).
+- Robust TAF parsing + visibility parsing.
+
+Alert rules:
+- CRITICAL: METAR has FZFG and visibility < 150 m
+- WARNING: any TAF segment has FZFG and visibility < 150 m
+"""
 import io
 import json
 import os
@@ -28,7 +26,6 @@ import pycountry
 import requests
 
 WIKI_URL = "https://en.wikipedia.org/wiki/List_of_Wizz_Air_destinations"
-WIZZ_CHEAP_FLIGHTS = "https://www.wizzair.com/en-gb/cheap-flights"
 OURAIRPORTS_CSV = "https://ourairports.com/airports.csv"
 
 METAR_URL = "https://aviationweather.gov/api/data/metar"
@@ -36,12 +33,10 @@ TAF_URL = "https://aviationweather.gov/api/data/taf"
 
 THRESHOLD_M = 150
 CHUNK = 90
-UA = {"User-Agent": "Mozilla/5.0 (GitHubActions) wizz-fzfg-alert/2.0"}
-
+UA = {"User-Agent": "Mozilla/5.0 (GitHubActions) wizz-fzfg-alert/3.0"}
 
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
-
 
 def read_lines(path: str) -> List[str]:
     if not os.path.exists(path):
@@ -54,7 +49,6 @@ def read_lines(path: str) -> List[str]:
                 continue
             out.append(s)
     return out
-
 
 def normalize_text(s: str) -> str:
     if s is None:
@@ -73,18 +67,15 @@ def normalize_text(s: str) -> str:
     toks = [t for t in s.split(" ") if t and t not in drop]
     return " ".join(toks)
 
-
 def country_to_iso2(name: str) -> Optional[str]:
     if not name:
         return None
     fixes = {
-        "North Macedonia": "North Macedonia",
         "United Kingdom (England)": "United Kingdom",
         "United Kingdom (Scotland)": "United Kingdom",
         "United Kingdom (Wales)": "United Kingdom",
         "United Kingdom (Northern Ireland)": "United Kingdom",
         "Russia": "Russian Federation",
-        "Moldova": "Moldova",
         "Türkiye": "Turkey",
     }
     name = fixes.get(name, name)
@@ -93,7 +84,6 @@ def country_to_iso2(name: str) -> Optional[str]:
         return c.alpha_2
     except Exception:
         return None
-
 
 @dataclass
 class AirportRow:
@@ -104,7 +94,6 @@ class AirportRow:
     type: str
     iata: str
 
-
 def try_get(url: str, timeout: int = 60) -> Optional[str]:
     try:
         r = requests.get(url, timeout=timeout, headers=UA, allow_redirects=True)
@@ -114,33 +103,12 @@ def try_get(url: str, timeout: int = 60) -> Optional[str]:
     except Exception:
         return None
 
-
-def load_wizz_airports_from_wizz() -> Optional[pd.DataFrame]:
-    html = try_get(WIZZ_CHEAP_FLIGHTS)
-    if not html:
-        return None
-
-    airport_names = set()
-    for m in re.finditer(r'"airportName"\s*:\s*"([^"]{2,120})"', html):
-        airport_names.add(m.group(1).strip())
-    for m in re.finditer(r'"name"\s*:\s*"([^"]{2,120} Airport)"', html):
-        airport_names.add(m.group(1).strip())
-
-    if not airport_names:
-        return None
-
-    df = pd.DataFrame({"Airport": sorted(airport_names)})
-    df["Country"] = ""
-    df["Town"] = ""
-    return df
-
-
 def load_wizz_airports_from_wikipedia() -> pd.DataFrame:
     html = try_get(WIKI_URL)
     if not html:
         raise RuntimeError("Wikipedia fetch failed (blocked).")
-
     tables = pd.read_html(html)
+
     t = None
     for tbl in tables:
         cols = [str(c).strip().lower() for c in tbl.columns]
@@ -166,20 +134,6 @@ def load_wizz_airports_from_wikipedia() -> pd.DataFrame:
     t["Town"] = t["Town"].astype(str).str.replace(r"\[.*?\]", "", regex=True).str.strip()
     t["Country"] = t["Country"].astype(str).str.replace(r"\[.*?\]", "", regex=True).str.strip()
     return t
-
-
-def load_wizz_airports(repo_root: str) -> Tuple[pd.DataFrame, str]:
-    cache_path = os.path.join(repo_root, "data", "wizz_airports_cache.csv")
-
-    df = load_wizz_airports_from_wizz()
-    if df is not None and len(df) > 10:
-        df.to_csv(cache_path, index=False, encoding="utf-8")
-        return df, "Wizz Air official site (best-effort)"
-
-    df = load_wizz_airports_from_wikipedia()
-    df.to_csv(cache_path, index=False, encoding="utf-8")
-    return df, "Wikipedia (fallback)"
-
 
 def load_ourairports() -> List[AirportRow]:
     r = requests.get(OURAIRPORTS_CSV, timeout=60, headers=UA)
@@ -207,14 +161,12 @@ def load_ourairports() -> List[AirportRow]:
         )
     return out
 
-
 def build_name_index(airports: List[AirportRow]) -> Dict[str, List[AirportRow]]:
     idx: Dict[str, List[AirportRow]] = {}
     for a in airports:
         key = normalize_text(a.name)
         idx.setdefault(key, []).append(a)
     return idx
-
 
 def pick_best(cands: List[AirportRow], iso2: Optional[str], town: str) -> Optional[AirportRow]:
     if not cands:
@@ -235,7 +187,6 @@ def pick_best(cands: List[AirportRow], iso2: Optional[str], town: str) -> Option
     cands = sorted(cands, key=score, reverse=True)
     return cands[0] if cands else None
 
-
 def quick_ratio(a: str, b: str) -> float:
     ta = set(a.split())
     tb = set(b.split())
@@ -244,7 +195,6 @@ def quick_ratio(a: str, b: str) -> float:
     j = len(ta & tb) / len(ta | tb)
     bonus = 0.08 if b.startswith(a[: min(8, len(a))]) else 0.0
     return min(1.0, j + bonus)
-
 
 def fuzzy_match(target_name: str, airports: List[AirportRow], iso2: Optional[str]) -> Optional[AirportRow]:
     tn = normalize_text(target_name)
@@ -267,7 +217,6 @@ def fuzzy_match(target_name: str, airports: List[AirportRow], iso2: Optional[str
     if best and best_ratio >= 0.86:
         return best
     return None
-
 
 def resolve_stations(wizz_df: pd.DataFrame, airports: List[AirportRow]) -> Tuple[List[str], List[str]]:
     idx = build_name_index(airports)
@@ -295,24 +244,21 @@ def resolve_stations(wizz_df: pd.DataFrame, airports: List[AirportRow]) -> Tuple
 
     return sorted(stations), unmapped
 
-
 def chunked(xs: List[str], n: int) -> List[List[str]]:
     return [xs[i:i+n] for i in range(0, len(xs), n)]
-
 
 def fetch_raw(url: str, ids: List[str]) -> str:
     params = {"ids": ",".join(ids), "format": "raw"}
     last_err = None
     for attempt in range(1, 6):
         try:
-            r = requests.get(url, params=params, timeout=60, headers={"User-Agent": "wizz-fzfg-alert/2.0"})
+            r = requests.get(url, params=params, timeout=60, headers={"User-Agent": "wizz-fzfg-alert/3.0"})
             r.raise_for_status()
             return r.text or ""
         except Exception as e:
             last_err = e
             time.sleep(1.3 * attempt)
     raise last_err
-
 
 def parse_metar_lines(txt: str) -> Dict[str, str]:
     out = {}
@@ -325,7 +271,6 @@ def parse_metar_lines(txt: str) -> Dict[str, str]:
             out[icao] = t
     return out
 
-
 def parse_taf_lines(txt: str) -> Dict[str, str]:
     out = {}
     for line in (txt or "").splitlines():
@@ -335,32 +280,26 @@ def parse_taf_lines(txt: str) -> Dict[str, str]:
         toks = t.split()
         if not toks:
             continue
-
         icao = toks[0].upper()
         if icao == "TAF" and len(toks) > 1:
             icao = toks[1].upper()
-
         if len(icao) == 4 and icao.isalpha():
             out[icao] = t
     return out
-
 
 def vis_to_meters(raw: str) -> Optional[int]:
     if not raw:
         return None
     if "CAVOK" in raw:
         return 9999
-
     m = re.search(r"(?<!/)\b(\d{4})\b(?!/)", raw)
     if m:
         return int(m.group(1), 10)
-
     m2 = re.search(r"\b(M)?(\d+)?(?:\s?(\d)/(\d))?SM\b", raw)
     if m2:
         whole = m2.group(2)
         num = m2.group(3)
         den = m2.group(4)
-
         miles = 0.0
         if whole:
             miles += float(whole)
@@ -369,7 +308,6 @@ def vis_to_meters(raw: str) -> Optional[int]:
         if miles > 0:
             return int(round(miles * 1609.344))
     return None
-
 
 def split_taf_segments(taf: str) -> List[str]:
     if not taf:
@@ -391,7 +329,6 @@ def split_taf_segments(taf: str) -> List[str]:
         segs.append(cur.strip())
     return segs
 
-
 def eval_metar(metar: Optional[str]) -> Tuple[Optional[int], bool, bool]:
     if not metar:
         return None, False, False
@@ -399,7 +336,6 @@ def eval_metar(metar: Optional[str]) -> Tuple[Optional[int], bool, bool]:
     vis = vis_to_meters(metar)
     trigger = (vis is not None) and (vis < THRESHOLD_M) and fzfg
     return vis, fzfg, trigger
-
 
 def eval_taf(taf: Optional[str]) -> bool:
     if not taf:
@@ -412,21 +348,26 @@ def eval_taf(taf: Optional[str]) -> bool:
             return True
     return False
 
-
 def main() -> int:
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     data_dir = os.path.join(repo_root, "data")
     os.makedirs(data_dir, exist_ok=True)
 
-    wizz_df, list_source = load_wizz_airports(repo_root)
-    airports = load_ourairports()
-
-    stations, unmapped = resolve_stations(wizz_df, airports)
-
+    override_path = os.path.join(data_dir, "stations_override.txt")
+    override = read_lines(override_path)
     extras = read_lines(os.path.join(data_dir, "extra_stations.txt"))
     excludes = set(read_lines(os.path.join(data_dir, "exclude_stations.txt")))
 
-    stations = sorted(set(stations).union(set(extras)) - excludes)
+    unmapped: List[str] = []
+    if override:
+        stations = sorted(set(override).union(set(extras)) - excludes)
+        list_source = "stations_override.txt (ICAO list)"
+    else:
+        wizz_df = load_wizz_airports_from_wikipedia()
+        airports = load_ourairports()
+        stations, unmapped = resolve_stations(wizz_df, airports)
+        stations = sorted(set(stations).union(set(extras)) - excludes)
+        list_source = "Wikipedia (List of Wizz Air destinations) + OurAirports ICAO mapping"
 
     with open(os.path.join(data_dir, "stations_icao.txt"), "w", encoding="utf-8") as f:
         f.write("\n".join(stations) + ("\n" if stations else ""))
@@ -469,7 +410,7 @@ def main() -> int:
     payload = {
         "ts_utc": utc_now_iso(),
         "threshold_m": THRESHOLD_M,
-        "source": f"{list_source} + OurAirports (ICAO mapping) + aviationweather.gov (METAR/TAF)",
+        "source": f"{list_source} + aviationweather.gov (METAR/TAF raw)",
         "station_count": len(stations),
         "stations": rows,
     }
@@ -477,9 +418,8 @@ def main() -> int:
     with open(os.path.join(data_dir, "status.json"), "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    print(f"Built data/status.json with {len(stations)} stations. Unmapped: {len(unmapped)}")
+    print(f"Built data/status.json: stations={len(stations)}, metar={len(metar_map)}, taf={len(taf_map)}, unmapped={len(unmapped)}")
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

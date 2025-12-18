@@ -6,7 +6,6 @@
   <title>Wizz FZFG + VIS&lt;150m Alert Monitor</title>
   <style>
     :root{
-      /* Wizz-like palette (approx.) */
       --wizz-pink:#CC2788;
       --wizz-purple:#711C90;
       --wizz-blue:#0E1397;
@@ -21,6 +20,7 @@
       --ok:#22c55e;
       --warn:#f59e0b;
       --crit:#ef4444;
+      --info:#38bdf8;
 
       --shadow: 0 18px 55px rgba(0,0,0,.38);
       --radius: 18px;
@@ -53,32 +53,18 @@
       gap:14px;
       flex-wrap:wrap;
     }
-    .brand{
-      display:flex; gap:12px; align-items:flex-start;
-    }
+    .brand{display:flex; gap:12px; align-items:flex-start;}
     .mark{
       width:14px; height:44px; border-radius:10px;
       background: linear-gradient(180deg, var(--wizz-pink), var(--wizz-blue));
       box-shadow: 0 0 22px rgba(204,39,136,.25);
     }
-    h1{
-      margin:0;
-      font-size:18px;
-      font-weight:950;
-      letter-spacing:.2px;
-      line-height:1.2;
-    }
+    h1{margin:0;font-size:18px;font-weight:950;letter-spacing:.2px;line-height:1.2;}
     .subtitle{
-      margin-top:4px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.4;
-      max-width: 1000px;
+      margin-top:4px;color:var(--muted);font-size:12px;line-height:1.4;max-width: 1000px;
     }
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    button, input{
-      font-family: inherit;
-    }
+    button, input{font-family: inherit;}
     button{
       background: rgba(16,20,46,.85);
       border: 1px solid var(--line);
@@ -120,16 +106,15 @@
     .kpiValue.small{font-size:12px; font-weight:800; line-height:1.35; color:var(--muted)}
     .pill{
       display:inline-block;
-      padding:3px 10px;
-      border-radius:999px;
+      padding:3px 10px;border-radius:999px;
       background: rgba(204,39,136,.16);
       border:1px solid rgba(204,39,136,.35);
       color: var(--text);
-      font-weight:950;
-      font-size:11px;
-      margin-left:8px;
-      vertical-align:middle;
+      font-weight:950;font-size:11px;
+      margin-left:8px;vertical-align:middle;
     }
+    .pill.info{background: rgba(56,189,248,.12); border-color: rgba(56,189,248,.32);}
+    .pill.warn{background: rgba(245,158,11,.14); border-color: rgba(245,158,11,.38);}
 
     .panel{
       background: var(--panel2);
@@ -158,33 +143,19 @@
     }
 
     table{width:100%;border-collapse:collapse;font-size:12px}
-    th,td{
-      border-top:1px solid rgba(105,120,190,.18);
-      padding:10px 8px;
-      vertical-align:top;
-    }
+    th,td{border-top:1px solid rgba(105,120,190,.18);padding:10px 8px;vertical-align:top;}
     th{color:var(--muted); font-weight:950; text-align:left}
-    .raw{
-      white-space:pre-wrap;
-      word-break:break-word;
-      color:#D7DEF8;
-      max-width:760px;
-    }
+    .raw{white-space:pre-wrap;word-break:break-word;color:#D7DEF8;max-width:760px;}
     .badge{
-      display:inline-block;
-      padding:4px 9px;
-      border-radius:999px;
-      font-weight:980;
-      font-size:11px;
-      letter-spacing:.2px;
+      display:inline-block;padding:4px 9px;border-radius:999px;
+      font-weight:980;font-size:11px;letter-spacing:.2px;
     }
     .badge.ok{background:rgba(34,197,94,.14); border:1px solid rgba(34,197,94,.38)}
     .badge.warn{background:rgba(245,158,11,.14); border:1px solid rgba(245,158,11,.42)}
     .badge.crit{background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.48)}
 
     .toast{
-      position:fixed; right:18px; bottom:18px;
-      max-width:640px;
+      position:fixed; right:18px; bottom:18px; max-width:720px;
       background: rgba(6,8,24,.92);
       border:1px solid var(--line);
       border-radius: 16px;
@@ -198,7 +169,6 @@
       50%{ box-shadow: 0 0 28px rgba(239,68,68,.30); }
       100%{ box-shadow: 0 0 0 rgba(239,68,68,0); }
     }
-
     @media (max-width:1200px){
       .kpis{grid-template-columns: repeat(2, minmax(0,1fr));}
       input{min-width: 160px;}
@@ -213,12 +183,11 @@
       <div>
         <h1>FZFG + Visibility &lt; 150 m Alert Monitor</h1>
         <div class="subtitle">
-          GitHub-only deployment: GitHub Pages serves this page. A GitHub Action rebuilds <code>data/status.json</code> every 5 minutes (minimum schedule).
-          Alert logic: <b>METAR</b> triggers <b>CRITICAL</b>; <b>TAF</b> triggers <b>WARNING</b> for <b>FZFG</b> + <b>VIS&lt;150m</b>.
+          GitHub Pages + GitHub Actions. The Action rebuilds <code>data/status.json</code> every 5 minutes.
+          <b>CRITICAL</b> = METAR (FZFG + VIS&lt;150m). <b>WARNING</b> = TAF segment (FZFG + VIS&lt;150m).
         </div>
       </div>
     </div>
-
     <div class="row">
       <button id="btnSound" class="primary">Sound: OFF</button>
       <button id="btnAck" class="danger" disabled>ACK (mute until cleared)</button>
@@ -243,7 +212,8 @@
     </div>
     <div class="card">
       <div class="kpiLabel">Monitored stations</div>
-      <div class="kpiValue" id="kStations">— <span class="pill">auto</span></div>
+      <div class="kpiValue" id="kStations">—</div>
+      <div class="kpiValue small" id="kStationsHint"></div>
     </div>
     <div class="card">
       <div class="kpiLabel">Last data update (UTC)</div>
@@ -264,11 +234,12 @@
       <h2>Status table</h2>
       <div class="row">
         <input id="filter" placeholder="Filter (ICAO)..." />
-        <input id="extra" placeholder="Extra ICAO (optional)" title="Stored in your browser only" />
+        <input id="extra" placeholder="Extra ICAO (browser-only)" title="Stored in your browser only" />
       </div>
     </div>
     <div class="muted small" style="margin-bottom:10px">
-      Keep this tab open. Turn Sound ON once to unlock audio. ACK mutes the alarm until all CRITICAL conditions clear.
+      If you see <b>0 monitored stations</b>, the workflow did not write <code>data/status.json</code> yet.
+      Check Actions logs and ensure Actions has <b>Read and write</b> permissions for the repository.
     </div>
 
     <table>
@@ -293,7 +264,6 @@
 <script>
   const LS_EXTRA = "wizz_fzfg_extra_icao";
   const DATA_URL = new URL("./data/status.json", window.location.href).toString();
-
   const el = (id) => document.getElementById(id);
 
   let state = {
@@ -402,10 +372,17 @@
       tbody.appendChild(tr);
     }
 
+    const stationCount = payload?.station_count ?? 0;
     el("kCrit").textContent = crit;
     el("kWarn").textContent = warn;
     el("kOk").textContent = ok;
-    el("kStations").innerHTML = `${payload?.station_count ?? stations.length} <span class="pill">auto</span>`;
+
+    el("kStations").innerHTML = `${stationCount} <span class="pill info">from status.json</span>`;
+    el("kStationsHint").innerHTML =
+      stationCount === 0
+        ? `<span class="pill warn">No stations in payload</span> Add ICAOs to <code>data/stations_override.txt</code> or fix Actions permissions.`
+        : `You can still add ad-hoc ICAOs in the input field (browser-only).`;
+
     el("kTs").textContent = payload?.ts_utc || "—";
     el("kSrc").textContent = payload?.source || "—";
     el("kUrl").textContent = DATA_URL;

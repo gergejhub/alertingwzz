@@ -90,7 +90,7 @@
     main{max-width:1700px;margin:0 auto;padding:16px 18px}
     .kpis{
       display:grid;
-      grid-template-columns: repeat(7, minmax(0,1fr));
+      grid-template-columns: repeat(6, minmax(0,1fr));
       gap:12px;
       margin-bottom:12px;
     }
@@ -247,11 +247,7 @@
       <div class="kpiLabel">Data source</div>
       <div class="kpiValue small" id="kSrc">—</div>
     </div>
-    <div class="card">
-      <div class="kpiLabel">Data URL</div>
-      <div class="kpiValue small" id="kUrl">—</div>
-    </div>
-  </section>
+</section>
 
   <section class="panel">
     <div class="panelHeader">
@@ -264,6 +260,13 @@
           <option value="critical">CRITICAL only</option>
           <option value="warning">WARNING only</option>
           <option value="ok">OK only</option>
+        </select>
+        <select id="condFilter" title="Filter by condition">
+          <option value="all">All conditions</option>
+          <option value="watch">Watchlist: FZFG OR VIS≤150</option>
+          <option value="fzfg">FZFG present</option>
+          <option value="lowvis">VIS≤150 present</option>
+          <option value="both">FZFG AND VIS≤150</option>
         </select>
         <label class="toggle">
           <input id="sortPriority" type="checkbox" checked />
@@ -284,6 +287,7 @@
           <th>Alert</th>
           <th>Vis (m)</th>
           <th>FZFG</th>
+          <th>Low VIS ≤150</th>
           <th>Triggers</th>
           <th>METAR (raw)</th>
           <th>TAF (raw)</th>
@@ -384,6 +388,7 @@
     tbody.innerHTML = "";
 
     const alertFilter = (el("alertFilter")?.value || "all").toLowerCase();
+    const condFilter = (el("condFilter")?.value || "all").toLowerCase();
     const sortByPriority = !!el("sortPriority")?.checked;
 
     function scoreAlert(a){
@@ -391,6 +396,80 @@
       if (v === "CRITICAL") return 2;
       if (v === "WARNING") return 1;
       return 0;
+    }
+
+    function visToMeters(raw){
+      if (!raw) return null;
+      const s = String(raw);
+      if (s.includes("CAVOK")) return 9999;
+
+      // 4-digit meter vis, exclude TAF validity windows like 1812/1912
+      const m = s.match(/(^|[^/])\b(\d{4})\b(?!\/)/);
+      if (m && m[2]) return parseInt(m[2], 10);
+
+      // statute miles (rare)
+      const sm = s.match(/\b(M)?(\d+)?(?:\s?(\d)\/(\d))?SM\b/);
+      if (sm){
+        const whole = sm[2] ? parseFloat(sm[2]) : 0;
+        const frac = (sm[3] && sm[4]) ? (parseFloat(sm[3]) / parseFloat(sm[4])) : 0;
+        const miles = whole + frac;
+        if (miles > 0) return Math.round(miles * 1609.344);
+      }
+      return null;
+    }
+
+    function splitTafSegments(taf){
+      if (!taf) return [];
+      const s = String(taf).replace(/\s+/g, " ").trim();
+      const parts = s.split(/\b(FM\d{6}|BECMG|TEMPO|PROB\d{2})\b/);
+      const segs = [];
+      let cur = "";
+      for (const p of parts){
+        if (!p) continue;
+        if (/^(FM\d{6}|BECMG|TEMPO|PROB\d{2})$/.test(p)){
+          if (cur.trim()) segs.push(cur.trim());
+          cur = p;
+        } else {
+          cur = (cur + " " + p).trim();
+        }
+      }
+      if (cur.trim()) segs.push(cur.trim());
+      return segs;
+    }
+
+    function hasFzfg(s){
+      if (!s) return false;
+      if (s.fzfg) return true;
+      const met = String(s.metar || "");
+      const taf = String(s.taf || "");
+      return met.includes("FZFG") || taf.includes("FZFG");
+    }
+
+    function hasLowVis150(s){
+      if (!s) return false;
+
+      // METAR: prefer parsed vis_m, fallback to regex on raw
+      let mv = (s.vis_m === null || s.vis_m === undefined) ? null : Number(s.vis_m);
+      if (mv === null || Number.isNaN(mv)){
+        mv = visToMeters(s.metar || "");
+      }
+      if (mv !== null && mv <= 150) return true;
+
+      // TAF: check any segment for any explicit VIS <= 150 (no FZFG requirement)
+      const segs = splitTafSegments(s.taf || "");
+      for (const seg of segs){
+        const v = visToMeters(seg);
+        if (v !== null && v <= 150) return true;
+      }
+      return false;
+    }
+
+    function watchFlag(s){
+      return hasFzfg(s) || hasLowVis150(s);
+    }
+
+    function bothFlag(s){
+      return hasFzfg(s) && hasLowVis150(s);
     }
 
     let filtered = stations.slice();
@@ -406,18 +485,33 @@
       return true;
     });
 
+    // Condition filtering
+    filtered = filtered.filter(s => {
+      if (condFilter === "all") return true;
+      if (condFilter === "watch") return watchFlag(s);
+      if (condFilter === "fzfg") return hasFzfg(s);
+      if (condFilter === "lowvis") return hasLowVis150(s);
+      if (condFilter === "both") return bothFlag(s);
+      return true;
+    });
+
     const sorted = filtered.sort((a,b) => {
-      // Priority sort: CRITICAL > WARNING > OK
+      // Always bring "watchlist" to the top (either criterion holds)
+      const aw = watchFlag(a) ? 1 : 0;
+      const bw = watchFlag(b) ? 1 : 0;
+      if (aw !== bw) return bw - aw;
+
       if (sortByPriority){
+        // Then CRITICAL > WARNING > OK
         const d = scoreAlert(b) - scoreAlert(a);
         if (d !== 0) return d;
 
-        // Within same priority: lower visibility first if available
+        // Then lower visibility first (if available)
         const av = (a.vis_m === null || a.vis_m === undefined) ? 1e12 : Number(a.vis_m);
         const bv = (b.vis_m === null || b.vis_m === undefined) ? 1e12 : Number(b.vis_m);
         if (av !== bv) return av - bv;
 
-        // If both have same visibility: METAR trigger first, then TAF trigger
+        // Then METAR trigger first, then TAF trigger
         const am = a.metar_trigger ? 1 : 0;
         const bm = b.metar_trigger ? 1 : 0;
         if (am !== bm) return bm - am;
@@ -427,7 +521,6 @@
         if (at !== bt) return bt - at;
       }
 
-      // Default stable ordering
       return (a.icao||"").localeCompare(b.icao||"");
     });
 
@@ -439,7 +532,8 @@
       else ok++;
 
       const vis = (s.vis_m === null || s.vis_m === undefined) ? "—" : String(s.vis_m);
-      const fz = s.fzfg ? "YES" : "—";
+      const fz = (hasFzfg(s)) ? "YES" : "—";
+      const lv = (hasLowVis150(s)) ? "YES" : "—";
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -447,6 +541,7 @@
         <td>${badge(s.alert || "OK")}</td>
         <td>${vis}</td>
         <td>${fz}</td>
+        <td>${lv}</td>
         <td>${triggersText(s)}</td>
         <td class="raw">${s.metar || ""}</td>
         <td class="raw">${s.taf || ""}</td>
@@ -467,9 +562,7 @@
 
     el("kTs").textContent = payload?.ts_utc || "—";
     el("kSrc").textContent = payload?.source || "—";
-    el("kUrl").textContent = DATA_URL;
-
-    for (const s of stations) {
+for (const s of stations) {
       const prev = state.prevAlerts.get(s.icao);
       if (prev !== "CRITICAL" && s.alert === "CRITICAL") {
         toast(`<b>CRITICAL</b> ${s.icao} — FZFG + VIS&lt;150m detected (METAR).`);
@@ -523,6 +616,7 @@
   el("filter").addEventListener("input", () => { if (state.lastPayload) render(state.lastPayload); });
   el("extra").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
   el("alertFilter").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
+  el("condFilter").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
   el("sortPriority").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
 
   el("extra").value = localStorage.getItem(LS_EXTRA) || "";

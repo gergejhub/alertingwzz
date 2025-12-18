@@ -29,6 +29,7 @@ WIKI_URL = "https://en.wikipedia.org/wiki/List_of_Wizz_Air_destinations"
 OURAIRPORTS_CSV = "https://ourairports.com/airports.csv"
 
 METAR_URL = "https://aviationweather.gov/api/data/metar"
+METAR_CACHE_CSV_GZ = "https://aviationweather.gov/data/cache/metars.cache.csv.gz"
 TAF_URL = "https://aviationweather.gov/api/data/taf"
 
 THRESHOLD_M = 150
@@ -247,6 +248,37 @@ def resolve_stations(wizz_df: pd.DataFrame, airports: List[AirportRow]) -> Tuple
 def chunked(xs: List[str], n: int) -> List[List[str]]:
     return [xs[i:i+n] for i in range(0, len(xs), n)]
 
+
+def fetch_metar_cache() -> Dict[str, str]:
+    """Fetch all current METARs from AviationWeather cache (CSV.gz) and return {ICAO: raw_text}.
+    Recommended by AWC for larger queries and more robust than large multi-station API calls.
+    """
+    last_err = None
+    for attempt in range(1, 6):
+        try:
+            r = requests.get(
+                METAR_CACHE_CSV_GZ,
+                timeout=60,
+                headers={"User-Agent": "wizz-fzfg-alert/3.4"},
+            )
+            r.raise_for_status()
+
+            import gzip, io, csv
+            txt = gzip.decompress(r.content).decode("utf-8", errors="replace")
+            reader = csv.DictReader(io.StringIO(txt))
+            out: Dict[str, str] = {}
+            for row in reader:
+                icao = (row.get("station_id") or row.get("station") or row.get("icao") or "").strip().upper()
+                raw_text = (row.get("raw_text") or row.get("raw_ob") or row.get("rawOb") or row.get("raw") or "").strip()
+                if len(icao) == 4 and icao.isalpha() and raw_text:
+                    out[icao] = raw_text
+            return out
+        except Exception as e:
+            last_err = e
+            time.sleep(1.3 * attempt)
+    print(f"[WARN] METAR cache fetch failed after retries: {last_err}")
+    return {}
+
 def fetch_raw(url: str, ids: List[str]) -> str:
     params = {"ids": ",".join(ids), "format": "raw"}
     last_err = None
@@ -261,12 +293,20 @@ def fetch_raw(url: str, ids: List[str]) -> str:
     raise last_err
 
 def parse_metar_lines(txt: str) -> Dict[str, str]:
-    out = {}
+    out: Dict[str, str] = {}
     for line in (txt or "").splitlines():
         t = line.strip()
         if not t:
             continue
-        icao = t.split()[0].upper()
+        toks = t.split()
+        if not toks:
+            continue
+
+        icao = toks[0].upper()
+        # aviationweather raw METAR often starts with 'METAR' or 'SPECI'
+        if icao in ("METAR", "SPECI") and len(toks) > 1:
+            icao = toks[1].upper()
+
         if len(icao) == 4 and icao.isalpha():
             out[icao] = t
     return out
@@ -375,13 +415,20 @@ def main() -> int:
     with open(os.path.join(data_dir, "unmapped_airports.txt"), "w", encoding="utf-8") as f:
         f.write("\n".join(unmapped) + ("\n" if unmapped else ""))
 
-    metar_map: Dict[str, str] = {}
+    metar_map: Dict[str, str] = fetch_metar_cache()
     taf_map: Dict[str, str] = {}
 
+    # If cache not available, fall back to API for METARs.
+    if not metar_map:
+        metar_map = {}
+        for ch in chunked(stations, CHUNK):
+            metar_txt = fetch_raw(METAR_URL, ch)
+            metar_map.update(parse_metar_lines(metar_txt))
+            time.sleep(0.35)
+
+    # TAFs via API (chunked)
     for ch in chunked(stations, CHUNK):
-        metar_txt = fetch_raw(METAR_URL, ch)
         taf_txt = fetch_raw(TAF_URL, ch)
-        metar_map.update(parse_metar_lines(metar_txt))
         taf_map.update(parse_taf_lines(taf_txt))
         time.sleep(0.35)
 

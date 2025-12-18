@@ -1,4 +1,4 @@
-def load_wizz_airports() -> pd.DataFrame:
+def load_wizz_airports():
     # Fetch HTML with a browser-like User-Agent to avoid 403 in GitHub Actions
     r = requests.get(
         WIKI_URL,

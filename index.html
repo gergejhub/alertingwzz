@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wizz FZFG + VIS&lt;150m Alert Monitor</title>
+  <style>
+    :root{
+      /* Wizz-like palette (approx.) */
+      --wizz-pink:#CC2788;
+      --wizz-magenta:#BA2589;
+      --wizz-purple:#711C90;
+      --wizz-blue:#0E1397;
+
+      --bg:#070A18;
+      --panel: rgba(18, 22, 48, .90);
+      --panel2: rgba(12, 16, 36, .92);
+      --text:#F3F5FF;
+      --muted:#A9B2D6;
+      --line: rgba(105, 120, 190, .22);
+
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --crit:#ef4444;
+
+      --shadow: 0 18px 55px rgba(0,0,0,.38);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 10% 10%, rgba(204,39,136,.35), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(14,19,151,.28), transparent 60%),
+        radial-gradient(900px 500px at 40% 90%, rgba(113,28,144,.22), transparent 55%),
+        linear-gradient(180deg, #050717, var(--bg));
+      min-height:100vh;
+    }
+
+    header{
+      position:sticky; top:0; z-index:20;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background: rgba(7,10,24,.72);
+      backdrop-filter: blur(10px);
+    }
+    .topbar{
+      max-width: 1600px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; gap:12px; align-items:flex-start;
+    }
+    .mark{
+      width:14px; height:44px; border-radius:10px;
+      background: linear-gradient(180deg, var(--wizz-pink), var(--wizz-blue));
+      box-shadow: 0 0 22px rgba(204,39,136,.25);
+    }
+    h1{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:.2px;
+      line-height:1.2;
+    }
+    .subtitle{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+      max-width: 980px;
+    }
+
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    button, input, textarea{
+      font-family: inherit;
+    }
+    button{
+      background: rgba(18,22,48,.85);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800;
+      letter-spacing:.2px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.22);
+    }
+    button:hover{filter:brightness(1.08)}
+    button.primary{
+      background: linear-gradient(135deg, rgba(204,39,136,.85), rgba(14,19,151,.55));
+      border-color: rgba(204,39,136,.35);
+    }
+    button.danger{
+      background: rgba(239,68,68,.18);
+      border-color: rgba(239,68,68,.45);
+    }
+    button:disabled{opacity:.55; cursor:not-allowed}
+
+    main{max-width:1600px;margin:0 auto;padding:16px 18px}
+
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(6, minmax(0,1fr));
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .card{
+      background: var(--panel);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:12px 14px;
+      box-shadow: var(--shadow);
+    }
+    .kpiLabel{color:var(--muted); font-size:12px; font-weight:800}
+    .kpiValue{margin-top:6px; font-size:24px; font-weight:950}
+    .kpiValue.small{font-size:12px; font-weight:800; line-height:1.35; color:var(--muted)}
+    .kpiValue .pill{
+      display:inline-block;
+      padding:3px 10px;
+      border-radius:999px;
+      background: rgba(204,39,136,.16);
+      border:1px solid rgba(204,39,136,.35);
+      color: var(--text);
+      font-weight:900;
+      font-size:11px;
+      margin-left:8px;
+      vertical-align:middle;
+    }
+
+    .panel{
+      background: var(--panel2);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:12px 14px;
+      box-shadow: var(--shadow);
+      margin-bottom:12px;
+    }
+    .panelHeader{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; flex-wrap:wrap; margin-bottom:10px;
+    }
+    .panelHeader h2{margin:0;font-size:13px;font-weight:950; letter-spacing:.2px}
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
+
+    input, textarea{
+      background: rgba(7,10,24,.85);
+      border:1px solid var(--line);
+      color: var(--text);
+      padding:9px 10px;
+      border-radius: 12px;
+      outline:none;
+    }
+
+    table{width:100%;border-collapse:collapse;font-size:12px}
+    th,td{
+      border-top:1px solid rgba(105,120,190,.18);
+      padding:10px 8px;
+      vertical-align:top;
+    }
+    th{color:var(--muted); font-weight:900; text-align:left}
+    .raw{
+      white-space:pre-wrap;
+      word-break:break-word;
+      color:#D7DEF8;
+      max-width:760px;
+    }
+    .badge{
+      display:inline-block;
+      padding:4px 9px;
+      border-radius:999px;
+      font-weight:950;
+      font-size:11px;
+      letter-spacing:.2px;
+    }
+    .badge.ok{background:rgba(34,197,94,.14); border:1px solid rgba(34,197,94,.38)}
+    .badge.warn{background:rgba(245,158,11,.14); border:1px solid rgba(245,158,11,.42)}
+    .badge.crit{background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.48)}
+
+    .toast{
+      position:fixed; right:18px; bottom:18px;
+      max-width:560px;
+      background: rgba(7,10,24,.92);
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding:12px 14px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.45);
+      display:none;
+    }
+    .flash{
+      animation: flashGlow 1s infinite;
+    }
+    @keyframes flashGlow{
+      0%{ box-shadow: 0 0 0 rgba(239,68,68,0); }
+      50%{ box-shadow: 0 0 28px rgba(239,68,68,.30); }
+      100%{ box-shadow: 0 0 0 rgba(239,68,68,0); }
+    }
+
+    @media (max-width:1200px){
+      .kpis{grid-template-columns: repeat(2, minmax(0,1fr));}
+    }
+  </style>
+</head>
+<body>
+<header id="hdr">
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"></div>
+      <div>
+        <h1>FZFG + Visibility &lt; 150m Alert Monitor</h1>
+        <div class="subtitle">
+          Web-only monitoring page (GitHub Pages). Data is refreshed by a scheduled GitHub Action (minimum 5-minute schedule).
+          Alert condition: <b>FZFG</b> and <b>VIS &lt; 150 m</b> based on METAR (CRITICAL) and TAF segments (WARNING).
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button id="btnSound" class="primary">Sound: OFF</button>
+      <button id="btnAck" class="danger" disabled>ACK (mute until cleared)</button>
+      <button id="btnNow">Refresh view</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="kpis">
+    <div class="card">
+      <div class="kpiLabel">CRITICAL (METAR)</div>
+      <div class="kpiValue" id="kCrit">0</div>
+    </div>
+    <div class="card">
+      <div class="kpiLabel">WARNING (TAF)</div>
+      <div class="kpiValue" id="kWarn">0</div>
+    </div>
+    <div class="card">
+      <div class="kpiLabel">OK</div>
+      <div class="kpiValue" id="kOk">0</div>
+    </div>
+    <div class="card">
+      <div class="kpiLabel">Stations monitored</div>
+      <div class="kpiValue" id="kStations">— <span class="pill">auto</span></div>
+    </div>
+    <div class="card">
+      <div class="kpiLabel">Last data update (UTC)</div>
+      <div class="kpiValue small" id="kTs">—</div>
+    </div>
+    <div class="card">
+      <div class="kpiLabel">Data source</div>
+      <div class="kpiValue small" id="kSrc">—</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panelHeader">
+      <h2>Status table</h2>
+      <div class="row">
+        <input id="filter" placeholder="Filter (ICAO)..." />
+        <input id="extra" placeholder="Extra ICAO (comma/space) - optional" title="Stored in your browser only" />
+      </div>
+    </div>
+    <div class="muted small" style="margin-bottom:10px">
+      Tip: keep this tab open on a dedicated monitor. Turn sound ON once (browser gesture) to enable the alarm.
+      Extra ICAO codes are local-only; they do not change the repository.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ICAO</th>
+          <th>Alert</th>
+          <th>Vis (m)</th>
+          <th>FZFG</th>
+          <th>METAR (raw)</th>
+          <th>TAF (raw)</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const DATA_URL = "data/status.json";
+  const LS_EXTRA = "wizz_fzfg_extra_icao";
+
+  const el = (id) => document.getElementById(id);
+
+  let state = {
+    soundOn: false,
+    acked: false,
+    alarmTimer: null,
+    prevAlerts: new Map(),
+    lastPayload: null
+  };
+
+  function toast(html) {
+    const t = el("toast");
+    t.innerHTML = html;
+    t.style.display = "block";
+    setTimeout(() => t.style.display = "none", 6500);
+  }
+
+  function badge(level) {
+    const cls = level === "CRITICAL" ? "crit" : (level === "WARNING" ? "warn" : "ok");
+    return `<span class="badge ${cls}">${level}</span>`;
+  }
+
+  function normalizeIcaoList(text) {
+    return (text || "")
+      .toUpperCase()
+      .split(/[,;\n\r\t ]+/)
+      .map(s => s.trim())
+      .filter(s => s.length === 4 && /^[A-Z]{4}$/.test(s));
+  }
+
+  function beepOnce() {
+    if (!state.soundOn) return;
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "square";
+      o.frequency.value = 880;
+      o.connect(g); g.connect(ctx.destination);
+      g.gain.value = 0.06;
+      o.start();
+      setTimeout(() => { o.stop(); ctx.close(); }, 550);
+    } catch (e) {}
+  }
+
+  function startAlarmLoop() {
+    if (state.alarmTimer) return;
+    state.alarmTimer = setInterval(() => {
+      if (!state.acked) beepOnce();
+    }, 7000);
+  }
+  function stopAlarmLoop() {
+    if (state.alarmTimer) clearInterval(state.alarmTimer);
+    state.alarmTimer = null;
+  }
+
+  function setHeaderFlash(on) {
+    const hdr = el("hdr");
+    if (on) hdr.classList.add("flash");
+    else hdr.classList.remove("flash");
+  }
+
+  function render(payload) {
+    const q = (el("filter").value || "").trim().toUpperCase();
+    const extra = normalizeIcaoList(el("extra").value);
+    localStorage.setItem(LS_EXTRA, extra.join(" "));
+
+    let stations = payload?.stations || [];
+    // merge in extra ICAO (if they exist in payload, fine; otherwise add placeholder rows)
+    for (const icao of extra) {
+      if (!stations.find(s => s.icao === icao)) {
+        stations = stations.concat([{ icao, alert: "OK", vis_m: null, fzfg: false, metar: "", taf: "" }]);
+      }
+    }
+
+    let crit=0, warn=0, ok=0;
+    let anyCritical=false;
+
+    const tbody = el("tbody");
+    tbody.innerHTML = "";
+
+    const sorted = stations.slice().sort((a,b) => (a.icao||"").localeCompare(b.icao||""));
+    for (const s of sorted) {
+      if (q && !(s.icao || "").includes(q)) continue;
+
+      if (s.alert === "CRITICAL") { crit++; anyCritical=true; }
+      else if (s.alert === "WARNING") warn++;
+      else ok++;
+
+      const vis = (s.vis_m === null || s.vis_m === undefined) ? "—" : String(s.vis_m);
+      const fz = s.fzfg ? "YES" : "—";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><b>${s.icao}</b></td>
+        <td>${badge(s.alert || "OK")}</td>
+        <td>${vis}</td>
+        <td>${fz}</td>
+        <td class="raw">${s.metar || ""}</td>
+        <td class="raw">${s.taf || ""}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    el("kCrit").textContent = crit;
+    el("kWarn").textContent = warn;
+    el("kOk").textContent = ok;
+    el("kStations").innerHTML = `${payload?.station_count ?? stations.length} <span class="pill">auto</span>`;
+    el("kTs").textContent = payload?.ts_utc || "—";
+    el("kSrc").textContent = payload?.source || "—";
+
+    // transitions into CRITICAL
+    for (const s of stations) {
+      const prev = state.prevAlerts.get(s.icao);
+      if (prev !== "CRITICAL" && s.alert === "CRITICAL") {
+        toast(`<b>CRITICAL</b> ${s.icao} — FZFG + VIS&lt;150m condition detected.`);
+        if (!state.acked) beepOnce();
+      }
+      state.prevAlerts.set(s.icao, s.alert);
+    }
+
+    if (anyCritical) {
+      setHeaderFlash(true);
+      document.title = "ALERT: FZFG + VIS<150";
+      el("btnAck").disabled = false;
+      startAlarmLoop();
+    } else {
+      setHeaderFlash(false);
+      document.title = "Wizz FZFG + VIS<150m Alert Monitor";
+      el("btnAck").disabled = true;
+      state.acked = false;
+      stopAlarmLoop();
+    }
+  }
+
+  async function load() {
+    try {
+      const r = await fetch(`${DATA_URL}?_=${Date.now()}`);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const payload = await r.json();
+      state.lastPayload = payload;
+      render(payload);
+    } catch (e) {
+      toast(`<b>Data load error</b>: ${e.message || e}`);
+    }
+  }
+
+  el("btnSound").addEventListener("click", () => {
+    state.soundOn = !state.soundOn;
+    el("btnSound").textContent = `Sound: ${state.soundOn ? "ON" : "OFF"}`;
+    if (state.soundOn) { beepOnce(); toast("Sound enabled."); }
+  });
+
+  el("btnAck").addEventListener("click", () => {
+    state.acked = true;
+    toast("ACK active: alarm muted until CRITICAL clears.");
+  });
+
+  el("btnNow").addEventListener("click", () => {
+    if (state.lastPayload) render(state.lastPayload);
+    load();
+  });
+
+  el("filter").addEventListener("input", () => { if (state.lastPayload) render(state.lastPayload); });
+  el("extra").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
+
+  // init
+  el("extra").value = localStorage.getItem(LS_EXTRA) || "";
+  load();
+  // UI refresh every 30s (data may update every ~5 minutes via Actions)
+  setInterval(load, 30000);
+</script>
+</body>
+</html>

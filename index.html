@@ -141,6 +141,29 @@
       outline:none;
       min-width: 220px;
     }
+    select{
+      background: rgba(6,8,24,.85);
+      border:1px solid var(--line);
+      color: var(--text);
+      padding:9px 10px;
+      border-radius: 12px;
+      outline:none;
+      min-width: 240px;
+      appearance: none;
+    }
+    .toggle{
+      display:flex; gap:8px; align-items:center;
+      padding:7px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(6,8,24,.55);
+      color: var(--muted);
+      font-size:12px;
+      font-weight:900;
+      user-select:none;
+    }
+    .toggle input{ min-width:auto; }
+
 
     table{width:100%;border-collapse:collapse;font-size:12px}
     th,td{border-top:1px solid rgba(105,120,190,.18);padding:10px 8px;vertical-align:top;}
@@ -172,6 +195,7 @@
     @media (max-width:1200px){
       .kpis{grid-template-columns: repeat(2, minmax(0,1fr));}
       input{min-width: 160px;}
+      select{min-width: 180px;}
     }
   </style>
 </head>
@@ -234,6 +258,17 @@
       <h2>Status table</h2>
       <div class="row">
         <input id="filter" placeholder="Filter (ICAO)..." />
+        <select id="alertFilter" title="Filter by alert level">
+          <option value="all">All</option>
+          <option value="alerts">Alerts only (CRITICAL + WARNING)</option>
+          <option value="critical">CRITICAL only</option>
+          <option value="warning">WARNING only</option>
+          <option value="ok">OK only</option>
+        </select>
+        <label class="toggle">
+          <input id="sortPriority" type="checkbox" checked />
+          <span>Sort by priority</span>
+        </label>
         <input id="extra" placeholder="Extra ICAO (browser-only)" title="Stored in your browser only" />
       </div>
     </div>
@@ -348,7 +383,54 @@
     const tbody = el("tbody");
     tbody.innerHTML = "";
 
-    const sorted = stations.slice().sort((a,b) => (a.icao||"").localeCompare(b.icao||""));
+    const alertFilter = (el("alertFilter")?.value || "all").toLowerCase();
+    const sortByPriority = !!el("sortPriority")?.checked;
+
+    function scoreAlert(a){
+      const v = (a && a.alert) ? String(a.alert).toUpperCase() : "OK";
+      if (v === "CRITICAL") return 2;
+      if (v === "WARNING") return 1;
+      return 0;
+    }
+
+    let filtered = stations.slice();
+
+    // Alert-level filtering
+    filtered = filtered.filter(s => {
+      const lvl = String(s.alert || "OK").toUpperCase();
+      if (alertFilter === "all") return true;
+      if (alertFilter === "alerts") return (lvl === "CRITICAL" || lvl === "WARNING");
+      if (alertFilter === "critical") return lvl === "CRITICAL";
+      if (alertFilter === "warning") return lvl === "WARNING";
+      if (alertFilter === "ok") return lvl === "OK";
+      return true;
+    });
+
+    const sorted = filtered.sort((a,b) => {
+      // Priority sort: CRITICAL > WARNING > OK
+      if (sortByPriority){
+        const d = scoreAlert(b) - scoreAlert(a);
+        if (d !== 0) return d;
+
+        // Within same priority: lower visibility first if available
+        const av = (a.vis_m === null || a.vis_m === undefined) ? 1e12 : Number(a.vis_m);
+        const bv = (b.vis_m === null || b.vis_m === undefined) ? 1e12 : Number(b.vis_m);
+        if (av !== bv) return av - bv;
+
+        // If both have same visibility: METAR trigger first, then TAF trigger
+        const am = a.metar_trigger ? 1 : 0;
+        const bm = b.metar_trigger ? 1 : 0;
+        if (am !== bm) return bm - am;
+
+        const at = a.taf_trigger ? 1 : 0;
+        const bt = b.taf_trigger ? 1 : 0;
+        if (at !== bt) return bt - at;
+      }
+
+      // Default stable ordering
+      return (a.icao||"").localeCompare(b.icao||"");
+    });
+
     for (const s of sorted) {
       if (q && !(s.icao || "").includes(q)) continue;
 
@@ -440,6 +522,8 @@
 
   el("filter").addEventListener("input", () => { if (state.lastPayload) render(state.lastPayload); });
   el("extra").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
+  el("alertFilter").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
+  el("sortPriority").addEventListener("change", () => { if (state.lastPayload) render(state.lastPayload); });
 
   el("extra").value = localStorage.getItem(LS_EXTRA) || "";
   load();

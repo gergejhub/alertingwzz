@@ -1,5 +1,5 @@
 {
-  "ts_utc": "2025-12-30T11:42:49Z",
+  "ts_utc": "2025-12-30T11:53:48Z",
   "threshold_m": 150,
   "source": "stations_override.txt (ICAO list) + aviationweather.gov (METAR/TAF raw)",
   "station_count": 159,
@@ -17,11 +17,11 @@
     {
       "icao": "BKPR",
       "alert": "OK",
-      "vis_m": 9999,
+      "vis_m": null,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR BKPR 301130Z 02014KT 9999 BKN045 02/M04 Q1012 NOSIG",
+      "metar": "",
       "taf": "TAF BKPR 301130Z 3012/3112 35008KT 9999 SCT030"
     },
     {
@@ -137,11 +137,11 @@
     {
       "icao": "EETN",
       "alert": "OK",
-      "vis_m": 1200,
+      "vis_m": 5000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EETN 301120Z 02016G28KT 1200 R08/1600D SHSN DRSN BKN011 SCT015CB M03/M04 Q1000 TEMPO 01018G30KT 0800 +SHSN",
+      "metar": "METAR EETN 301150Z 02015G32KT 5000 SHSN BLSN BKN014 SCT017CB M02/M06 Q1000 TEMPO 3000",
       "taf": "TAF EETN 301130Z 3012/3112 01015G25KT 3000 SN DRSN BKN012 SCT015CB OVC020"
     },
     {
@@ -151,7 +151,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EFTU 301120Z AUTO 01012KT 330V040 9999 FEW030 M03/M10 Q1007",
+      "metar": "METAR EFTU 301150Z AUTO 36012KT 340V050 CAVOK M03/M10 Q1007",
       "taf": "TAF EFTU 301126Z 3012/3112 36015KT CAVOK"
     },
     {
@@ -507,11 +507,11 @@
     {
       "icao": "EYKA",
       "alert": "OK",
-      "vis_m": 4000,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EYKA 301120Z VRB08G22KT 4000 R26/1300U -SHSN FEW005 SCT012CB BKN020 M04/M06 Q0997",
+      "metar": "METAR EYKA 301150Z VRB06KT 9999 FEW024CB M04/M08 Q0997",
       "taf": "TAF EYKA 301110Z 3012/3112 34011KT 9000 BKN020"
     },
     {
@@ -521,17 +521,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EYPA 301120Z 01010KT 330V040 9999 -SHSN FEW046 SCT059CB M01/M05 Q1002",
+      "metar": "METAR EYPA 301150Z 01008KT 320V030 9999 VCSH SCT052CB M02/M05 Q1002",
       "taf": "TAF EYPA 301110Z 3012/3112 01013KT 9000 BKN025"
     },
     {
       "icao": "EYVI",
       "alert": "OK",
-      "vis_m": 9999,
+      "vis_m": 2500,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EYVI 301120Z 31007KT 9999 -SHSN BKN009CB M06/M07 Q0994 BECMG BKN015CB",
+      "metar": "METAR EYVI 301150Z 31009KT 2500 SHSN BKN022CB M05/M07 Q0994 TEMPO 0800 +SHSN",
       "taf": "TAF EYVI 301126Z 3012/3112 33010KT 8000 SCT010 BKN015"
     },
     {
@@ -641,7 +641,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LATI 301120Z 34004KT 9999 FEW043 SCT070 09/02 Q1011 NOSIG",
+      "metar": "METAR LATI 301150Z 33005KT 290V010 9999 BKN060 11/02 Q1010 NOSIG",
       "taf": "TAF LATI 301100Z 3012/3112 VRB05KT 9999 FEW040 BKN070 TX12/3013Z TNM01/3104Z"
     },
     {
@@ -1161,7 +1161,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LLBG 301120Z 19006KT 160V230 9999 FEW030 18/10 Q1019 NOSIG",
+      "metar": "METAR LLBG 301150Z 22009KT 9999 FEW030 SCT040 19/09 Q1018 NOSIG",
       "taf": "TAF LLBG 301101Z 3012/3112 22010KT 9999 SCT050"
     },
     {
@@ -1171,7 +1171,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LMML 301115Z 28011KT 9999 FEW031 16/10 Q1013 NOSIG",
+      "metar": "METAR LMML 301145Z 28010KT 9999 FEW032 16/10 Q1013 NOSIG",
       "taf": "TAF LMML 301100Z 3012/3112 30015KT 9999 FEW020"
     },
     {
@@ -1431,7 +1431,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LWSK 301120Z 21003KT 130V300 CAVOK 05/M03 Q1011 NOSIG",
+      "metar": "METAR LWSK 301150Z VRB02KT CAVOK 06/M03 Q1011 NOSIG",
       "taf": "TAF LWSK 301120Z 3012/3112 36012KT CAVOK"
     },
     {

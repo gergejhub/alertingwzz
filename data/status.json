@@ -1,5 +1,5 @@
 {
-  "ts_utc": "2026-02-07T11:30:40Z",
+  "ts_utc": "2026-02-07T11:49:27Z",
   "threshold_m": 150,
   "source": "stations_override.txt (ICAO list) + aviationweather.gov (METAR/TAF raw)",
   "station_count": 159,
@@ -11,17 +11,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR BIKF 071100Z 07005KT CAVOK 02/M01 Q1009",
+      "metar": "METAR BIKF 071130Z 08005KT CAVOK 02/M01 Q1009",
       "taf": "TAF BIKF 071009Z 0712/0812 09008KT CAVOK TX03/0714Z TNM02/0803Z"
     },
     {
       "icao": "BKPR",
       "alert": "OK",
-      "vis_m": null,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "",
+      "metar": "METAR BKPR 071130Z 24014KT 9999 SCT030 14/06 Q1004 NOSIG",
       "taf": "TAF BKPR 071130Z 0712/0812 25008KT 9999 BKN040"
     },
     {
@@ -142,7 +142,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR EETN 071120Z 04007KT 9999 BKN004 M10/M11 Q1016 NOSIG",
-      "taf": "TAF EETN 070530Z 0706/0806 05010KT 8000 BKN005 OVC010"
+      "taf": "TAF EETN 071130Z 0712/0812 05008KT 9999 BKN006"
     },
     {
       "icao": "EFTU",
@@ -152,7 +152,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR EFTU 071120Z AUTO 04004KT 010V070 CAVOK M13/M17 Q1018",
-      "taf": "TAF EFTU 070834Z 0709/0809 04005KT CAVOK"
+      "taf": "TAF EFTU 071134Z 0712/0812 04005KT CAVOK"
     },
     {
       "icao": "EGBB",
@@ -241,7 +241,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EHEH 071055Z AUTO 19007KT 160V220 9999 SCT056 OVC200 10/07 Q1003 BLU NOSIG RMK TREND REMOTE BY EHWX",
+      "metar": "METAR EHEH 071125Z AUTO 19007KT 160V230 9999 OVC180 10/07 Q1003 BLU NOSIG RMK TREND REMOTE BY EHWX",
       "taf": "TAF EHEH 070538Z 0706/0812 18007KT CAVOK"
     },
     {
@@ -272,7 +272,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENAL 071120Z 14010KT CAVOK 06/M10 Q1010",
-      "taf": "TAF ENAL 070500Z 0706/0715 14012KT CAVOK"
+      "taf": "TAF ENAL 071100Z 0712/0721 12008KT CAVOK"
     },
     {
       "icao": "ENBR",
@@ -282,7 +282,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENBR 071120Z 04002KT 9999 VCSH BKN042 03/M04 Q1010 NOSIG RMK WIND 1200FT 12005KT",
-      "taf": "TAF ENBR 070500Z 0706/0806 04003KT 9999 BKN050"
+      "taf": "TAF ENBR 071100Z 0712/0812 VRB03KT 9999 SCT050"
     },
     {
       "icao": "ENGM",
@@ -292,7 +292,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENGM 071120Z 02008KT 9999 SCT018 BKN032 M06/M10 Q1018 NOSIG",
-      "taf": ""
+      "taf": "TAF ENGM 071100Z 0712/0812 02008KT 9999 BKN020"
     },
     {
       "icao": "ENHD",
@@ -302,7 +302,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENHD 071120Z 07009KT CAVOK 04/M03 Q1009",
-      "taf": "TAF ENHD 070800Z 0709/0718 10008KT 9999 -SN BKN040"
+      "taf": "TAF ENHD 071100Z 0712/0721 09008KT 9999 SCT040"
     },
     {
       "icao": "ENTC",
@@ -312,7 +312,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENTC 071120Z VRB02KT CAVOK M06/M07 Q1023 NOSIG RMK WIND 2600FT 20011KT",
-      "taf": "TAF ENTC 070500Z 0706/0806 18005KT CAVOK"
+      "taf": "TAF ENTC 071100Z 0712/0812 18005KT CAVOK"
     },
     {
       "icao": "ENTO",
@@ -322,7 +322,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENTO 071120Z 02012KT 8000 -SN FEW007 SCT009 OVC016 M05/M06 Q1017 TEMPO 4000 BKN012",
-      "taf": ""
+      "taf": "TAF ENTO 071100Z 0712/0812 02012KT 9000 -SN BKN015"
     },
     {
       "icao": "ENVA",
@@ -332,7 +332,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENVA 071120Z 12009KT CAVOK M05/M18 Q1018 NOSIG RMK WIND 670FT 10010KT",
-      "taf": ""
+      "taf": "TAF ENVA 071100Z 0712/0812 10008KT CAVOK"
     },
     {
       "icao": "ENZV",
@@ -342,7 +342,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ENZV 071120Z 28003KT 220V310 9999 VCSH NSC 01/M01 Q1009 NOSIG",
-      "taf": ""
+      "taf": "TAF ENZV 071100Z 0712/0812 12005KT 9999 SCT050"
     },
     {
       "icao": "EPGD",
@@ -351,17 +351,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPGD 071100Z 04006KT 7000 OVC005 M02/M03 Q1007",
+      "metar": "METAR EPGD 071130Z 05006KT 020V080 7000 -SG OVC005 M02/M03 Q1007",
       "taf": "TAF EPGD 071130Z 0712/0812 05006KT 7000 OVC006"
     },
     {
       "icao": "EPKK",
       "alert": "OK",
-      "vis_m": 1600,
+      "vis_m": 1700,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPKK 071100Z 23004KT 1600 BR OVC006 04/02 Q1003",
+      "metar": "METAR EPKK 071130Z 23004KT 190V280 1700 BR OVC008 04/02 Q1003",
       "taf": "TAF EPKK 071130Z 0712/0812 22004KT 2000 BR OVC005"
     },
     {
@@ -371,47 +371,47 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPKT 071100Z 32003KT 270V360 7000 OVC008 03/01 Q1003",
+      "metar": "METAR EPKT 071130Z 33003KT 7000 OVC008 04/01 Q1003",
       "taf": "TAF EPKT 071130Z 0712/0812 29003KT 7000 OVC008"
     },
     {
       "icao": "EPLB",
       "alert": "OK",
-      "vis_m": 4600,
+      "vis_m": 3500,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPLB 071100Z 08005KT 4600 -FZRA BR OVC003 M00/M00 Q1004",
+      "metar": "METAR EPLB 071130Z 06004KT 3500 -FZRA BR OVC003 M00/M00 Q1004",
       "taf": "TAF EPLB 071130Z 0712/0812 06005KT 5000 BR BKN005"
     },
     {
       "icao": "EPMO",
       "alert": "OK",
-      "vis_m": 600,
+      "vis_m": 900,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPMO 071100Z 04005KT 0600 R08/0750N FG OVC001 00/00 Q1005",
+      "metar": "METAR EPMO 071130Z 06006KT 0900 R08/0900U FG OVC001 00/00 Q1005",
       "taf": "TAF EPMO 071130Z 0712/0812 04005KT 1500 BR OVC002"
     },
     {
       "icao": "EPPO",
       "alert": "OK",
-      "vis_m": 3400,
+      "vis_m": 4200,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPPO 071100Z 05003KT 3400 BR OVC003 01/M00 Q1005",
+      "metar": "METAR EPPO 071130Z 06003KT 4200 BR OVC004 01/M00 Q1005",
       "taf": "TAF EPPO 071130Z 0712/0812 05003KT 3400 BR OVC003"
     },
     {
       "icao": "EPRA",
       "alert": "OK",
-      "vis_m": 2600,
+      "vis_m": 900,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPRA 071100Z 05001KT 2600 R07/0600N BR OVC003 01/01 Q1004",
+      "metar": "METAR EPRA 071130Z 05002KT 0900 R07/1100D FG OVC003 01/01 Q1004",
       "taf": "TAF EPRA 071130Z 0712/0721 04005KT 3000 BR OVC005"
     },
     {
@@ -421,7 +421,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPRZ 071100Z 24005KT 200V260 2000 BR OVC002 01/01 Q1003",
+      "metar": "METAR EPRZ 071130Z 26005KT 2000 BR OVC002 01/01 Q1003",
       "taf": "TAF EPRZ 071130Z 0712/0812 24005KT 2000 BR OVC002"
     },
     {
@@ -431,27 +431,27 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPSC 071100Z 04004KT 020V080 4800 -FZDZ BR BKN005 OVC007 01/M00 Q1006",
+      "metar": "METAR EPSC 071130Z 04004KT 4800 -FZDZ BR BKN005 OVC007 01/M00 Q1006",
       "taf": "TAF EPSC 071130Z 0712/0812 07004KT 5000 BR OVC006"
     },
     {
       "icao": "EPSY",
       "alert": "OK",
-      "vis_m": 1500,
+      "vis_m": 2100,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPSY 071100Z VRB03KT 1500 BR BKN001 OVC002 M02/M02 Q1005",
+      "metar": "METAR EPSY 071130Z 04003KT 2100 BR BKN001 OVC003 M02/M02 Q1005",
       "taf": "TAF EPSY 071130Z 0712/0721 05004KT 3000 BR OVC003"
     },
     {
       "icao": "EPWA",
       "alert": "OK",
-      "vis_m": 1500,
+      "vis_m": 1900,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPWA 071100Z 06003KT 030V090 1500 1300E -DZ BR OVC002 01/01 Q1004 TEMPO 1200",
+      "metar": "METAR EPWA 071130Z 07004KT 040V100 1900 1000SE R33/1200U -DZ BR OVC002 01/01 Q1004 TEMPO 3000 BR OVC003",
       "taf": "TAF EPWA 071130Z 0712/0812 05004KT 2000 BR OVC003"
     },
     {
@@ -461,7 +461,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR EPWR 071100Z VRB02KT 4500 BR BKN006 BKN010 03/02 Q1005",
+      "metar": "METAR EPWR 071130Z 27004KT 4500 BR FEW006 BKN008 03/02 Q1005",
       "taf": "TAF EPWR 071130Z 0712/0812 26003KT 4500 BR BKN005 BKN010"
     },
     {
@@ -472,7 +472,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ESGG 071120Z 05011KT 9999 BKN013 M02/M04 Q1012",
-      "taf": "TAF ESGG 070830Z 0709/0809 07010KT 9999 -SN BKN009"
+      "taf": "TAF ESGG 071130Z 0712/0812 07010KT 9999 BKN016"
     },
     {
       "icao": "ESKN",
@@ -482,7 +482,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ESKN 071120Z 03008KT 350V060 CAVOK M03/M10 Q1017",
-      "taf": "TAF ESKN 070830Z 0709/0809 03010KT 9999 BKN030"
+      "taf": "TAF ESKN 071130Z 0712/0812 03010KT CAVOK"
     },
     {
       "icao": "ESMS",
@@ -492,7 +492,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ESMS 071120Z 08015KT 9999 OVC009 00/M01 Q1009",
-      "taf": ""
+      "taf": "TAF ESMS 071127Z 0712/0812 08014KT 9999 OVC008"
     },
     {
       "icao": "ESSA",
@@ -502,7 +502,7 @@
       "metar_trigger": false,
       "taf_trigger": false,
       "metar": "METAR ESSA 071120Z 05009KT 9999 SCT017 M04/M08 Q1018 NOSIG",
-      "taf": "TAF ESSA 070830Z 0709/0809 03009KT CAVOK"
+      "taf": "TAF ESSA 071130Z 0712/0812 04009KT 9999 BKN016"
     },
     {
       "icao": "EYKA",
@@ -541,7 +541,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR GCFV 071100Z 05004KT 020V080 9999 FEW030 19/10 Q1026",
+      "metar": "METAR GCFV 071130Z 07006KT 9999 FEW030 19/11 Q1026",
       "taf": "TAF GCFV 070800Z 0709/0809 10005KT 9999 FEW030 TX22/0714Z TN17/0806Z"
     },
     {
@@ -551,7 +551,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR GCLP 071100Z 06007KT 9999 FEW038 20/12 Q1025 NOSIG",
+      "metar": "METAR GCLP 071130Z 07007KT 9999 FEW038 20/12 Q1026 NOSIG",
       "taf": "TAF GCLP 070800Z 0709/0809 04010KT 9999 FEW035 TX22/0714Z TN16/0806Z"
     },
     {
@@ -561,7 +561,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR GCTS 071100Z 15006KT 120V200 9999 SCT030 19/12 Q1026 NOSIG",
+      "metar": "METAR GCTS 071130Z 19006KT 150V240 9999 SCT030 20/12 Q1026 NOSIG",
       "taf": "TAF GCTS 070800Z 0709/0809 14005KT 9999 FEW040 TX24/0714Z TN16/0806Z"
     },
     {
@@ -571,7 +571,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR GMAD 071100Z 05007KT 8000 NSC 15/14 Q1024 NOSIG",
+      "metar": "METAR GMAD 071130Z 04007KT 010V080 8000 NSC 16/14 Q1024 NOSIG",
       "taf": "TAF GMAD 071100Z 0712/0818 28012KT 8000 SCT020"
     },
     {
@@ -581,7 +581,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR GMMN 071100Z 21019KT 180V240 9999 SCT020 16/12 Q1021 NOSIG",
+      "metar": "METAR GMMN 071130Z 22021KT 9999 SCT020 16/12 Q1021 NOSIG",
       "taf": "TAF GMMN 071100Z 0712/0818 22016KT 9999 SCT020"
     },
     {
@@ -591,7 +591,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR GMMX 071100Z 22004KT 130V280 CAVOK 15/09 Q1023 NOSIG",
+      "metar": "METAR GMMX 071130Z 25006KT 210V300 CAVOK 15/09 Q1023 NOSIG",
       "taf": "TAF GMMX 071100Z 0712/0818 22006KT 8000 NSC"
     },
     {
@@ -651,17 +651,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LBPD 071100Z AUTO 28003KT 250V330 9999 FEW078/// SCT089/// BKN110/// 13/08 Q1003 NOSIG",
+      "metar": "METAR LBPD 071130Z AUTO 20003KT 160V230 9999 SCT092/// 13/09 Q1003 NOSIG",
       "taf": "TAF LBPD 071100Z 0712/0812 31010KT 9999 BKN050"
     },
     {
       "icao": "LBSF",
       "alert": "OK",
-      "vis_m": 9000,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LBSF 071100Z 29003KT 260V340 9000 FEW009 BKN033 OVC042 08/06 Q1004 NOSIG",
+      "metar": "METAR LBSF 071130Z 28003KT 240V310 9999 FEW011 OVC034 09/07 Q1004 NOSIG",
       "taf": "TAF LBSF 071100Z 0712/0812 32010KT 9999 SCT030 BKN050"
     },
     {
@@ -671,7 +671,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LBWN 071100Z AUTO 29009KT 9999 OVC014/// 08/05 Q1003 NOSIG",
+      "metar": "METAR LBWN 071130Z AUTO 28011KT 9999 OVC015/// 08/06 Q1003 NOSIG",
       "taf": "TAF LBWN 071100Z 0712/0812 30010KT 9999 BKN012 BKN030"
     },
     {
@@ -681,18 +681,18 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LCLK 071100Z 22021KT 9999 FEW020 FEW025TCU SCT040 21/17 Q1007 NOSIG",
-      "taf": "TAF LCLK 070530Z 0706/0806 21007KT 8000 FEW020 SCT035"
+      "metar": "METAR LCLK 071130Z 22024G34KT 9999 FEW020 FEW025TCU SCT040 21/17 Q1007 NOSIG",
+      "taf": "TAF LCLK 071130Z 0712/0812 22020KT 9999 FEW025 SCT040"
     },
     {
       "icao": "LCPH",
       "alert": "OK",
-      "vis_m": 8000,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LCPH 071100Z 26012KT 250V320 8000 FEW020 20/16 Q1009 NOSIG",
-      "taf": "TAF LCPH 070530Z 0706/0806 10009KT 8000 FEW015 SCT025"
+      "metar": "METAR LCPH 071130Z 26015KT 250V320 9999 FEW025 SCT035 20/16 Q1009 NOSIG",
+      "taf": "TAF LCPH 071130Z 0712/0812 26016KT 9999 FEW018 SCT030"
     },
     {
       "icao": "LEAL",
@@ -701,7 +701,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEAL 071100Z 23009KT 190V260 9999 FEW020 15/04 Q1014 NOSIG",
+      "metar": "METAR LEAL 071130Z 22011KT 180V270 9999 FEW020 16/03 Q1013 NOSIG",
       "taf": "TAF LEAL 071100Z 0712/0812 22012KT 9999 FEW040 TX16/0714Z TN08/0806Z"
     },
     {
@@ -711,7 +711,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEBB 071100Z 18008KT 110V260 9999 FEW040 14/03 Q1005 NOSIG",
+      "metar": "METAR LEBB 071130Z 19009KT 120V240 9999 FEW040 15/03 Q1004 NOSIG",
       "taf": "TAF LEBB 071100Z 0712/0812 20010KT CAVOK TX14/0714Z TN07/0804Z"
     },
     {
@@ -721,7 +721,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEBL 071100Z 29014KT 230V320 CAVOK 14/02 Q1007 NOSIG",
+      "metar": "METAR LEBL 071130Z 28015KT CAVOK 15/02 Q1007 NOSIG",
       "taf": "TAF LEBL 071100Z 0712/0812 29009KT 9999 FEW025 TX16/0713Z TN07/0806Z"
     },
     {
@@ -731,7 +731,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LECH 071100Z AUTO 22008KT 180V260 CAVOK 13/M01 Q1008",
+      "metar": "METAR LECH 071130Z AUTO 21007KT 140V250 CAVOK 14/M02 Q1008",
       "taf": ""
     },
     {
@@ -741,17 +741,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEMD 071100Z 18008KT 130V210 9999 SCT015 BKN022 BKN035 06/03 Q1010 NOSIG",
+      "metar": "METAR LEMD 071130Z 19009G21KT 100V220 9999 SCT022 BKN035 07/03 Q1010 NOSIG",
       "taf": "TAF LEMD 071100Z 0712/0818 18010KT 9999 SCT015 BKN020 TX10/0812Z TN02/0719Z"
     },
     {
       "icao": "LEMG",
       "alert": "OK",
-      "vis_m": 6000,
+      "vis_m": 4000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "SPECI LEMG 071118Z 09005KT 050V170 6000 +RA FEW015 SCT025 BKN030 10/09 Q1016 NOSIG",
+      "metar": "METAR LEMG 071130Z 07005KT 4000 RA SCT015 SCT025 BKN030 10/09 Q1016 NOSIG",
       "taf": "TAF LEMG 071100Z 0712/0812 12007KT 9999 FEW040 TX13/0714Z TN09/0806Z"
     },
     {
@@ -761,7 +761,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEVC 071100Z 27014KT 220V310 9999 SCT052 14/01 Q1011 NOSIG",
+      "metar": "METAR LEVC 071130Z 28016G26KT 230V320 9999 FEW050 14/01 Q1011 NOSIG",
       "taf": "TAF LEVC 071100Z 0712/0812 27014KT 9999 SCT035 TX16/0714Z TN08/0806Z"
     },
     {
@@ -771,7 +771,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEXJ 071100Z 17017G28KT 140V210 CAVOK 13/03 Q1003",
+      "metar": "METAR LEXJ 071130Z 18020G31KT 150V220 CAVOK 13/02 Q1002",
       "taf": "TAF LEXJ 070800Z 0709/0809 20009KT CAVOK TX14/0713Z TN08/0722Z"
     },
     {
@@ -781,7 +781,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEZG 071100Z 24017KT CAVOK 12/02 Q1009 NOSIG",
+      "metar": "METAR LEZG 071130Z 25017KT 9999 FEW050 13/02 Q1008 NOSIG",
       "taf": "TAF LEZG 071100Z 0712/0812 24012KT 9999 FEW050 TX13/0715Z TN05/0806Z"
     },
     {
@@ -791,7 +791,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LEZL 071100Z 18016G26KT 150V220 5000 RA SCT011 BKN022 BKN040 13/12 Q1012 NOSIG",
+      "metar": "METAR LEZL 071130Z 20014G27KT 140V260 5000 RA SCT011 BKN022 OVC036 14/13 Q1012 NOSIG",
       "taf": ""
     },
     {
@@ -801,8 +801,8 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LFBD 071100Z AUTO 23011KT CAVOK 13/07 Q1004 TEMPO 22015G25KT BKN050TCU",
-      "taf": "TAF LFBD 070500Z 0706/0812 20010KT CAVOK TX13/0714Z TN06/0806Z"
+      "metar": "METAR LFBD 071130Z AUTO 24018KT 210V270 9999 FEW035 SCT050 13/06 Q1004 TEMPO 22015G25KT BKN050TCU",
+      "taf": "TAF LFBD 071100Z 0712/0818 21010KT CAVOK TX14/0714Z TN06/0806Z"
     },
     {
       "icao": "LFLL",
@@ -811,7 +811,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LFLL 071100Z 29004KT 240V320 9999 FEW012 BKN250 09/06 Q1005 NOSIG",
+      "metar": "METAR LFLL 071130Z VRB03KT 9999 FEW013 BKN250 09/06 Q1005 NOSIG",
       "taf": "TAF LFLL 071100Z 0712/0818 VRB04KT 9999 FEW015 BKN100"
     },
     {
@@ -821,7 +821,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LFLS 071100Z AUTO 08008KT CAVOK 08/05 Q1004 NOSIG",
+      "metar": "METAR LFLS 071130Z AUTO 09010KT CAVOK 09/05 Q1004 NOSIG",
       "taf": "TAF LFLS 070800Z 0709/0809 08006KT CAVOK"
     },
     {
@@ -831,7 +831,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LFMN 071100Z 13003KT 090V160 CAVOK 13/07 Q1003 NOSIG",
+      "metar": "METAR LFMN 071130Z 09009KT CAVOK 13/08 Q1003 NOSIG",
       "taf": "TAF LFMN 070800Z 0709/0815 33010KT CAVOK"
     },
     {
@@ -841,7 +841,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LFOB 071100Z AUTO 17012KT 9999 SCT018 SCT043 BKN240 11/08 Q1000 NOSIG",
+      "metar": "METAR LFOB 071130Z AUTO 17012KT 9999 FEW019 SCT240 11/07 Q1000 NOSIG",
       "taf": "TAF LFOB 070500Z 0706/0806 20007KT 9999 BKN020"
     },
     {
@@ -851,7 +851,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LFPO 071100Z 19011KT 160V220 9999 BKN019 SCT260 11/07 Q1002 NOSIG",
+      "metar": "METAR LFPO 071130Z 20010KT 160V240 9999 BKN023 12/07 Q1002 NOSIG",
       "taf": "TAF LFPO 070500Z 0706/0812 18005KT CAVOK"
     },
     {
@@ -861,7 +861,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LFSB 071100Z AUTO 15005KT 120V190 CAVOK 11/06 Q1004 NOSIG",
+      "metar": "METAR LFSB 071130Z AUTO 10005KT 070V150 CAVOK 12/06 Q1004 NOSIG",
       "taf": "TAF LFSB 071100Z 0712/0812 17005KT CAVOK"
     },
     {
@@ -891,17 +891,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LHBP 071100Z 26008KT 9999 BKN022 08/03 Q1004 NOSIG",
+      "metar": "METAR LHBP 071130Z 27008KT 240V310 9999 FEW022 SCT100 BKN200 08/03 Q1004 NOSIG",
       "taf": "TAF LHBP 071115Z 0712/0812 29008KT 9999 BKN028"
     },
     {
       "icao": "LHDC",
       "alert": "OK",
-      "vis_m": 8000,
+      "vis_m": 4700,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LHDC 071045Z AUTO 22010KT 8000 FEW012 BKN029 08/06 Q1004 BECMG 4000 BR",
+      "metar": "METAR LHDC 071115Z AUTO 21009KT 4700 BR BKN006 BKN037 08/07 Q1003 BECMG 4000 BR",
       "taf": "TAF LHDC 071115Z 0712/0721 22008KT 9999 FEW012 BKN030"
     },
     {
@@ -1131,17 +1131,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LJLJ 071100Z 02001KT 9999 -RA BKN003 OVC060 05/05 Q1005 NOSIG",
+      "metar": "METAR LJLJ 071130Z VRB01KT 9999 -RA SCT003 BKN060 06/05 Q1005 NOSIG",
       "taf": "TAF LJLJ 071100Z 0712/0812 VRB02KT 9999 SCT005 BKN060"
     },
     {
       "icao": "LKMT",
       "alert": "OK",
-      "vis_m": 1300,
+      "vis_m": 1000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LKMT 071100Z 24005KT 1300 R22/1900N R04/2000N BR SCT003 OVC006 03/03 Q1004 NOSIG",
+      "metar": "METAR LKMT 071130Z 24004KT 1000 R22/1900N R04/P2000N BR SCT002 OVC006 03/03 Q1004 NOSIG",
       "taf": "TAF LKMT 071100Z 0712/0812 23006KT 2100 BR OVC007"
     },
     {
@@ -1151,7 +1151,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LKPR 071100Z 26004KT 5000 BR OVC006 04/03 Q1004 NOSIG",
+      "metar": "METAR LKPR 071130Z VRB02KT 5000 BR OVC006 04/03 Q1004 NOSIG",
       "taf": "TAF LKPR 071100Z 0712/0818 24004KT 5000 BR SCT004 OVC006"
     },
     {
@@ -1171,7 +1171,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LMML 071115Z 28009KT 240V300 9999 FEW018 18/12 Q1012 NOSIG",
+      "metar": "METAR LMML 071145Z 26009KT 220V300 9999 FEW020 18/13 Q1012 NOSIG",
       "taf": "TAF LMML 071100Z 0712/0812 26008KT 9999 FEW020"
     },
     {
@@ -1187,11 +1187,11 @@
     {
       "icao": "LPFR",
       "alert": "OK",
-      "vis_m": 8000,
+      "vis_m": 5000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LPFR 071100Z 22021KT 8000 FEW010 SCT020 BKN040 15/13 Q1010",
+      "metar": "METAR LPFR 071130Z 22024KT 5000 RA BR FEW008 SCT015 FEW020CB BKN030 15/13 Q1010",
       "taf": "TAF LPFR 071100Z 0712/0812 23023KT 6000 -RA SCT008 BKN018"
     },
     {
@@ -1201,17 +1201,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LPMA 071100Z VRB05KT 9999 SCT015 19/12 Q1021",
+      "metar": "METAR LPMA 071130Z 01003KT 290V070 9999 SCT015 20/10 Q1021",
       "taf": "TAF LPMA 071100Z 0712/0812 23010KT 9999 SCT015"
     },
     {
       "icao": "LPPR",
       "alert": "OK",
-      "vis_m": 5000,
+      "vis_m": 8000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LPPR 071100Z 13017KT 5000 RA BR BKN023 FEW025CB OVC030 09/07 Q0995",
+      "metar": "METAR LPPR 071130Z 15020KT 8000 -RA SCT014 FEW017CB BKN022 10/08 Q0994 RERA",
       "taf": "TAF LPPR 071100Z 0712/0812 18018KT 8000 -RA SCT012 BKN025"
     },
     {
@@ -1221,17 +1221,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LPPS 071100Z 26018KT 9999 FEW014 18/14 Q1020",
+      "metar": "METAR LPPS 071130Z 26019KT 9999 FEW014 19/14 Q1021",
       "taf": "TAF LPPS 071100Z 0712/0818 27018KT 9999 SCT015"
     },
     {
       "icao": "LPPT",
       "alert": "OK",
-      "vis_m": 8000,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LPPT 071100Z 24019KT 8000 VCSH FEW010 BKN015 FEW018CB 14/13 Q1002 WS R20",
+      "metar": "METAR LPPT 071130Z 24021G31KT 9999 FEW015 SCT022 FEW025CB BKN046 15/12 Q1002 WS R20",
       "taf": "TAF LPPT 071100Z 0712/0818 27018KT 9999 SCT025"
     },
     {
@@ -1241,17 +1241,17 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LQBK 071100Z VRB02KT 7000 BKN045 11/08 Q1005 NOSIG",
+      "metar": "METAR LQBK 071130Z VRB01KT 7000 SCT045 11/08 Q1005 NOSIG",
       "taf": "TAF LQBK 071100Z 0712/0812 VRB02KT 7000 SCT030 BKN045 TX12/0713Z TN04/0805Z"
     },
     {
       "icao": "LQSA",
       "alert": "OK",
-      "vis_m": 4000,
+      "vis_m": 5000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LQSA 071100Z VRB01KT 4000 -RA BR SCT008 BKN030 07/07 Q1005 RERA NOSIG",
+      "metar": "METAR LQSA 071130Z VRB01KT 5000 -RA BR SCT006 BKN035 08/08 Q1004 NOSIG",
       "taf": "TAF LQSA 071100Z 0712/0812 VRB02KT 4000 RA BR BKN004 BKN030 TX08/0713Z TN02/0805Z"
     },
     {
@@ -1261,7 +1261,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LQTZ 071100Z VRB01KT 7000 -RA BKN007 OVC015 10/09 Q1005",
+      "metar": "METAR LQTZ 071130Z VRB02KT 7000 BKN015 10/09 Q1005",
       "taf": "TAF LQTZ 071100Z 0712/0812 VRB02KT 7000 SCT012 BKN035 TX10/0713Z TN03/0805Z"
     },
     {
@@ -1271,7 +1271,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRBC 071100Z VRB02KT 6000 OVC005 01/01 Q1003",
+      "metar": "METAR LRBC 071130Z VRB01KT 6000 OVC005 02/01 Q1003",
       "taf": "TAF LRBC 071100Z 0712/0721 VRB04KT 7000 OVC005"
     },
     {
@@ -1281,7 +1281,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRBS 071100Z 26009KT 9999 OVC007 05/04 Q1004 NOSIG",
+      "metar": "METAR LRBS 071130Z 26009KT 9999 OVC007 06/04 Q1004 NOSIG",
       "taf": "TAF LRBS 071100Z 0712/0812 24010KT 9999 OVC010"
     },
     {
@@ -1291,7 +1291,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRBV 071100Z VRB03KT 9999 FEW016 SCT028 BKN035 04/02 Q1003",
+      "metar": "METAR LRBV 071130Z 00000KT 9999 FEW018 BKN031 05/03 Q1003",
       "taf": "TAF LRBV 071100Z 0712/0721 VRB04KT 9999 BKN025"
     },
     {
@@ -1301,7 +1301,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRCL 071100Z 29004KT 250V330 9999 FEW031 SCT062 11/04 Q1002",
+      "metar": "METAR LRCL 071130Z VRB02KT 9999 FEW031 SCT062 12/03 Q1002",
       "taf": "TAF LRCL 071100Z 0712/0721 VRB04KT 9999 SCT050"
     },
     {
@@ -1311,7 +1311,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRCV 071100Z 25005KT 9999 BKN011 BKN030 07/04 Q1004",
+      "metar": "METAR LRCV 071130Z 23005KT 9999 BKN010 BKN028 07/04 Q1004",
       "taf": "TAF LRCV 071100Z 0712/0721 VRB04KT 9999 BKN010 BKN025"
     },
     {
@@ -1321,27 +1321,27 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRIA 071100Z 32003KT 290V350 9999 OVC005 M00/M02 Q1003",
+      "metar": "METAR LRIA 071130Z 33003KT 290V360 9999 BKN006 OVC020 M00/M02 Q1003",
       "taf": "TAF LRIA 071100Z 0712/0721 VRB04KT 9999 OVC005"
     },
     {
       "icao": "LROP",
       "alert": "OK",
-      "vis_m": 9000,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LROP 071100Z 25009KT 9000 OVC006 05/05 Q1004 NOSIG",
+      "metar": "METAR LROP 071130Z 25009KT 9999 OVC006 06/05 Q1004 NOSIG",
       "taf": "TAF LROP 071100Z 0712/0812 24010KT 9999 OVC010"
     },
     {
       "icao": "LRSB",
       "alert": "OK",
-      "vis_m": 8000,
+      "vis_m": 9000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRSB 071100Z 07005KT 8000 -RA FEW017 SCT033 BKN055 06/06 Q1003",
+      "metar": "METAR LRSB 071130Z 12004KT 090V150 9000 FEW015 SCT055 BKN080 07/06 Q1003",
       "taf": "TAF LRSB 071100Z 0712/0812 VRB04KT 9999 BKN035"
     },
     {
@@ -1351,7 +1351,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRSM 071100Z AUTO 25009KT 9999 SCT016/// BKN060/// 09/07 Q1003 REDZ",
+      "metar": "METAR LRSM 071130Z AUTO 25008KT 9999 -SHRA FEW009/// BKN045/// 08/06 Q1003",
       "taf": ""
     },
     {
@@ -1361,17 +1361,17 @@
       "fzfg": true,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRSV 071100Z 07004KT 0600 R34/0800D FZFG BKN002 M01/M01 Q1001",
+      "metar": "METAR LRSV 071130Z VRB02KT 0600 R34/0900U FZFG BKN001 M01/M01 Q1001",
       "taf": "TAF LRSV 071100Z 0712/0721 VRB04KT 0600 FZFG BKN002"
     },
     {
       "icao": "LRTM",
       "alert": "OK",
-      "vis_m": 9000,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRTM 071100Z 07003KT 020V120 9000 FEW045 07/05 Q1003",
+      "metar": "METAR LRTM 071130Z VRB01KT 9999 FEW048 08/05 Q1003",
       "taf": "TAF LRTM 071100Z 0712/0721 VRB04KT 9999 BKN030"
     },
     {
@@ -1381,7 +1381,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LRTR 071100Z VRB02KT CAVOK 09/06 Q1005 NOSIG",
+      "metar": "METAR LRTR 071130Z VRB01KT CAVOK 09/07 Q1005 NOSIG",
       "taf": "TAF LRTR 071100Z 0712/0812 VRB04KT CAVOK"
     },
     {
@@ -1411,37 +1411,37 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LUKK 071100Z 35004KT 320V020 9999 OVC007 M01/M02 Q1003 BECMG BKN010",
+      "metar": "METAR LUKK 071130Z 36005KT 9999 OVC007 M01/M02 Q1003 NOSIG",
       "taf": "TAF LUKK 071110Z 0712/0812 34005KT 9999 OVC008"
     },
     {
       "icao": "LWOH",
       "alert": "OK",
-      "vis_m": 9999,
+      "vis_m": null,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LWOH 071120Z 17013KT 9999 SCT044 10/06 Q1006",
+      "metar": "",
       "taf": "TAF LWOH 070855Z 0709/0809 22008KT 9999 SCT040"
     },
     {
       "icao": "LWSK",
       "alert": "OK",
-      "vis_m": 8000,
+      "vis_m": null,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LWSK 071120Z 22003KT 150V280 8000 FEW009 SCT015 11/08 Q1005 NOSIG",
+      "metar": "",
       "taf": "TAF LWSK 070855Z 0709/0809 VRB02KT 9999 SCT030"
     },
     {
       "icao": "LYBE",
       "alert": "OK",
-      "vis_m": 3000,
+      "vis_m": 5000,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LYBE 071100Z 23003KT 160V300 3000 BR OVC005 08/07 Q1005 BECMG 5000 BKN010",
+      "metar": "METAR LYBE 071130Z 24004KT 210V310 5000 BR OVC007 09/07 Q1005 BECMG 7000 NSW BKN012",
       "taf": "TAF LYBE 071100Z 0712/0812 25006KT 4000 BR BKN007 TX11/0713Z TN05/0806Z"
     },
     {
@@ -1451,7 +1451,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LYNI 071100Z 32003KT 290V360 9999 FEW008 SCT020 BKN030 09/08 Q1005 NOSIG",
+      "metar": "METAR LYNI 071130Z 35006KT 320V020 9999 FEW008 SCT023 BKN033 10/08 Q1005 NOSIG",
       "taf": "TAF LYNI 071100Z 0712/0812 32005KT 8000 SCT012 BKN030 TX10/0713Z TN05/0806Z"
     },
     {
@@ -1461,7 +1461,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LYPG 071100Z 32005KT 9999 FEW006 BKN050 13/11 Q1006 NOSIG",
+      "metar": "METAR LYPG 071130Z 19004KT 140V240 9999 FEW016 BKN050 13/11 Q1006 NOSIG",
       "taf": "TAF LYPG 071100Z 0712/0812 18006KT 9999 FEW010 BKN050 TX15/0713Z TN09/0806Z"
     },
     {
@@ -1471,7 +1471,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LZIB 071100Z 29007KT 260V320 9999 BKN022 07/03 Q1004 NOSIG",
+      "metar": "METAR LZIB 071130Z 28005KT 9999 BKN022 08/03 Q1004 NOSIG",
       "taf": "TAF LZIB 071115Z 0712/0812 28006KT 9999 SCT015 BKN020"
     },
     {
@@ -1481,7 +1481,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LZKZ 071100Z 02005KT 9999 OVC012 06/05 Q1002 NOSIG",
+      "metar": "METAR LZKZ 071130Z 02005KT 9999 OVC011 06/05 Q1002 NOSIG",
       "taf": "TAF LZKZ 071115Z 0712/0812 02005KT 9999 SCT012 OVC025"
     },
     {
@@ -1491,7 +1491,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR LZTT 071100Z VRB02KT 3500 -RA BR FEW003 BKN009 OVC016 04/04 Q1001 NOSIG",
+      "metar": "METAR LZTT 071130Z VRB01KT 3500 BR FEW003 BKN010 OVC016 04/04 Q1001 NOSIG",
       "taf": "TAF LZTT 071115Z 0712/0812 VRB02KT 4000 BR FEW003 SCT008 OVC016"
     },
     {
@@ -1527,11 +1527,11 @@
     {
       "icao": "OMAA",
       "alert": "OK",
-      "vis_m": null,
+      "vis_m": 9999,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "",
+      "metar": "METAR OMAA 071130Z 32012KT 9999 FEW045 28/15 Q1015 NOSIG",
       "taf": "TAF OMAA 071100Z 0712/0818 31010KT 8000 NSC"
     },
     {
@@ -1547,11 +1547,11 @@
     {
       "icao": "UAAA",
       "alert": "OK",
-      "vis_m": 4400,
+      "vis_m": 3800,
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "SPECI UAAA 071106Z 32002MPS 290V360 4400 -SHSN BR BKN015CB OVC100 00/M02 Q1025 NOSIG",
+      "metar": "METAR UAAA 071130Z 34002MPS 310V030 3800 -SHSN BR BKN017CB OVC100 M00/M02 Q1025 NOSIG",
       "taf": "TAF UAAA 071108Z 0712/0812 01003MPS 3100 -SHSN BR BKN020CB OVC100 TX00/0807Z TNM04/0802Z"
     },
     {
@@ -1561,7 +1561,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR UBBB 071100Z 19022G33KT CAVOK 09/03 Q1007 NOSIG",
+      "metar": "METAR UBBB 071130Z 18022G32KT CAVOK 09/04 Q1006 NOSIG",
       "taf": "TAF UBBB 071049Z 0712/0812 18020G30KT 9999 SCT030 TX10/0712Z TN03/0801Z"
     },
     {
@@ -1571,7 +1571,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR UDSG 071100Z 33001KT 8000 FEW006 OVC023 01/M02 Q1011 NOSIG",
+      "metar": "METAR UDSG 071130Z 30004KT 8000 FEW006 OVC023 00/M01 Q1011 NOSIG",
       "taf": "TAF UDSG 071058Z 0712/0812 VRB06KT 5000 BR OVC030"
     },
     {
@@ -1581,7 +1581,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR UDYZ 071100Z VRB01KT 8000 BKN043 06/01 Q1012 NOSIG",
+      "metar": "METAR UDYZ 071130Z VRB01KT 8000 BKN043 06/01 Q1011 NOSIG",
       "taf": "TAF UDYZ 071100Z 0712/0812 VRB06KT 6000 BKN040"
     },
     {
@@ -1591,7 +1591,7 @@
       "fzfg": false,
       "metar_trigger": false,
       "taf_trigger": false,
-      "metar": "METAR UGKO 071100Z 09017KT CAVOK 17/01 Q1004 NOSIG",
+      "metar": "METAR UGKO 071130Z 09015KT CAVOK 16/01 Q1004 NOSIG",
       "taf": "TAF UGKO 071100Z 0712/0812 09010KT CAVOK TX16/0712Z TN08/0803Z"
     }
   ]
